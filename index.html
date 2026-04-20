@@ -2,118 +2,71 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AllInOneShopping</title>
 
-  <!-- ✅ Firebase SDK -->
+  <!-- ✅ Firebase CDN (Correct) -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
   <style>
-    body {
-      font-family: Arial;
-      background: #f5f5f5;
-      margin: 0;
-      text-align: center;
-    }
-    .box {
-      margin: 50px auto;
-      background: white;
-      padding: 20px;
-      width: 90%;
-      max-width: 400px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input {
-      width: 100%;
+    body { font-family: Arial; text-align: center; margin-top: 50px; }
+    input, button {
       padding: 12px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      background: #1e3c72;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-    .hidden { display: none; }
-    .card {
-      background: white;
       margin: 10px;
-      padding: 15px;
-      border-radius: 10px;
-      text-decoration: none;
-      display: block;
-      color: black;
-      font-weight: bold;
+      width: 250px;
     }
   </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div class="box" id="loginBox">
-  <h2>AllInOneShopping</h2>
-  <input type="tel" id="phone" placeholder="+91XXXXXXXXXX">
-  <div id="recaptcha-container"></div>
-  <button onclick="sendOTP()">Send OTP</button>
+<h2>AllInOneShopping Login</h2>
 
-  <div id="otpBox" class="hidden">
-    <input type="text" id="otp" placeholder="Enter OTP">
-    <button onclick="verifyOTP()">Verify</button>
-  </div>
-</div>
+<input type="tel" id="phone" placeholder="+91XXXXXXXXXX"><br>
 
-<!-- HOME -->
-<div class="box hidden" id="homeBox">
-  <h3>Welcome 🎉</h3>
+<div id="recaptcha-container"></div>
 
-  <a href="https://www.amazon.in" class="card">Amazon</a>
-  <a href="https://www.flipkart.com" class="card">Flipkart</a>
-  <a href="https://www.myntra.com" class="card">Myntra</a>
-  <a href="https://www.ajio.com" class="card">Ajio</a>
+<button onclick="sendOTP()">Send OTP</button>
 
-  <button onclick="logout()">Logout</button>
-</div>
+<br>
+
+<input type="text" id="otp" placeholder="Enter OTP"><br>
+
+<button onclick="verifyOTP()">Verify</button>
 
 <script>
-  // 🔥 Firebase Config (তোমারটা বসাও)
+  // ✅ FIXED Firebase Config
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
+    apiKey: "AIzaSyDVOOjp1IeEQ4DMOTCGZV-C0Qi9mMGcenE",
     authDomain: "all-in-one-shopping-726b4.firebaseapp.com",
     projectId: "all-in-one-shopping-726b4",
     storageBucket: "all-in-one-shopping-726b4.appspot.com",
     messagingSenderId: "912464435351",
-    appId: "YOUR_APP_ID"
+    appId: "1:912464435351:web:48fea35da31c6adae531d2"
   };
 
+  // ✅ Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
+  // ✅ Recaptcha
   window.onload = function () {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
       size: 'normal'
     });
   };
 
+  // ✅ Send OTP
   function sendOTP() {
-    let phone = document.getElementById("phone").value;
+    var phone = document.getElementById("phone").value;
 
     if (!phone.startsWith("+")) {
-      alert("Use format: +91XXXXXXXXXX");
+      alert("Use +91XXXXXXXXXX format");
       return;
     }
 
     firebase.auth().signInWithPhoneNumber(phone, window.recaptchaVerifier)
       .then(function (result) {
         window.confirmationResult = result;
-        document.getElementById("otpBox").classList.remove("hidden");
         alert("OTP Sent");
       })
       .catch(function (error) {
@@ -121,23 +74,17 @@
       });
   }
 
+  // ✅ Verify OTP
   function verifyOTP() {
-    let code = document.getElementById("otp").value;
+    var code = document.getElementById("otp").value;
 
     confirmationResult.confirm(code)
       .then(function () {
-        document.getElementById("loginBox").classList.add("hidden");
-        document.getElementById("homeBox").classList.remove("hidden");
+        alert("Login Success ✅");
       })
       .catch(function () {
-        alert("Invalid OTP");
+        alert("Wrong OTP ❌");
       });
-  }
-
-  function logout() {
-    firebase.auth().signOut().then(() => {
-      location.reload();
-    });
   }
 </script>
 
