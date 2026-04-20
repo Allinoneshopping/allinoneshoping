@@ -1,179 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AllInOneShopping - Premium Pro</title>
-    
-    <!-- Firebase & Ads SDK -->
-    <script src="https://gstatic.com"></script>
-    <script src="https://gstatic.com"></script>
-    <script src="https://gstatic.com"></script>
-    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AllInOneShopping</title>
 
-    <!-- 🔥 CUELINKS AUTO-CONVERT SCRIPT -->
-    <script type="text/javascript">
-        var cl_cid = "282788";
-        (function() {
-            var cl = document.createElement('script'); cl.type = 'text/javascript'; cl.async = true;
-            cl.src = 'https://cuelinks.com';
-            var s = document.getElementsByTagName('script'); s.parentNode.insertBefore(cl, s);
-        })();
-    </script>
+<!-- ✅ FIXED Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-    <link rel="stylesheet" href="https://cloudflare.com">
-
-    <style>
-        :root { --primary: #1e3c72; --secondary: #ff9900; --bg: #f4f7f6; --text: #333; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding-bottom: 120px; }
-        .header { background: var(--primary); color: white; padding: 15px; text-align: center; font-weight: bold; position: sticky; top: 0; z-index: 1000; letter-spacing: 1px; }
-        .page { display: none; padding: 15px; animation: fadeIn 0.4s; }
-        .active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Dashboard & Cards */
-        .section-title { font-size: 14px; font-weight: bold; margin: 15px 0 10px; color: var(--primary); border-left: 4px solid var(--secondary); padding-left: 10px; text-transform: uppercase; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .card { background: white; padding: 18px; border-radius: 12px; text-align: center; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eee; cursor: pointer; color: #333; text-decoration: none; font-size: 13px; }
-        .card:active { transform: scale(0.95); background: #fdfdfd; }
-
-        /* Legal & Wallet Box */
-        .legal-box { background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 5px solid #2ecc71; text-align: left; }
-        .legal-text { font-size: 12px; color: #555; line-height: 1.6; height: 350px; overflow-y: scroll; padding-right: 10px; }
-        
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #ddd; z-index: 1000; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
-        .nav-item { color: #888; font-size: 12px; text-align: center; cursor: pointer; font-weight: bold; }
-        .main-btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
-    </style>
+<style>
+body{font-family:sans-serif;background:#f4f7f6;margin:0}
+.header{background:#1e3c72;color:#fff;padding:15px;text-align:center;font-weight:bold}
+.page{display:none;padding:15px}
+.active{display:block}
+.main-btn{width:100%;padding:12px;background:#1e3c72;color:#fff;border:none;border-radius:10px;margin-top:10px}
+</style>
 </head>
+
 <body>
 
 <div class="header">AllInOneShopping</div>
 
-<!-- 1. LOGIN PAGE -->
 <div id="login-page" class="page active">
-    <div style="text-align: center; margin-top: 40px;">
-        <img src="https://ibb.co" style="width: 100px; border-radius: 20px; margin-bottom: 15px; border: 2px solid #eee;">
-        <h2>Welcome to AllInOneShopping</h2>
-        <p style="color: #666; font-size: 14px;">Access all major stores in one secure app</p>
-        <input type="tel" id="phone" placeholder="Enter Phone Number (+91...)" style="width:100%; padding:12px; border-radius:10px; border:1px solid #ccc; box-sizing:border-box;">
-        <div id="recaptcha-container" style="margin-top:10px;"></div>
-        <button class="main-btn" style="margin-top:15px;" onclick="sendOTP()">SEND OTP</button>
-        
-        <div id="otp-area" style="display:none; margin-top: 20px;">
-            <input type="text" id="otp" placeholder="Enter 6-digit OTP" style="width:100%; padding:12px; border-radius:10px; border:1px solid #ccc; box-sizing:border-box;">
-            <button class="main-btn" onclick="verifyOTP()" style="background: #28a745;">VERIFY & CONTINUE</button>
-        </div>
-    </div>
+<h2>Login</h2>
+<input type="tel" id="phone" placeholder="+91XXXXXXXXXX" style="width:100%;padding:10px;">
+<div id="recaptcha-container"></div>
+<button class="main-btn" onclick="sendOTP()">SEND OTP</button>
+
+<div id="otp-area" style="display:none;">
+<input type="text" id="otp" placeholder="Enter OTP" style="width:100%;padding:10px;">
+<button class="main-btn" onclick="verifyOTP()">VERIFY</button>
+</div>
 </div>
 
-<!-- 2. HOME DASHBOARD -->
 <div id="home-page" class="page">
-    <div class="section-title">🔥 Best Shopping Deals</div>
-    <div class="grid">
-        <a href="https://flipkart.com" class="card">Flipkart</a>
-        <a href="https://amazon.in" class="card">Amazon</a>
-        <a href="https://myntra.com" class="card">Myntra</a>
-        <a href="https://ajio.com" class="card">Ajio</a>
-    </div>
-    
-    <div class="section-title">📦 Other Services</div>
-    <div class="grid">
-        <a href="https://swiggy.com" class="card">Swiggy</a>
-        <a href="https://zomato.com" class="card">Zomato</a>
-        <a href="https://reliancedigital.in" class="card">Electronics</a>
-        <a href="https://tatacliq.com" class="card">Tata CLiQ</a>
-    </div>
-    <p style="text-align:center; font-size:10px; color:#999; margin-top:20px;">All links are automatically tracked for rewards.</p>
-</div>
-
-<!-- 3. LEGAL & SAFETY PAGE -->
-<div id="legal-page" class="page">
-    <div class="legal-box">
-        <h3 style="margin-top:0;">Legal Policy & Safety</h3>
-        <div class="legal-text">
-            <p><strong>1. TRADEMARK DISCLAIMER:</strong> All product names, logos, and brands (Amazon, Flipkart, etc.) are property of their respective owners. We are an affiliate partner and do not own these trademarks.</p>
-            <p><strong>2. AFFILIATE DISCLOSURE:</strong> This app contains affiliate links. When you shop through these links, we earn a commission at no extra cost to you. This helps us provide rewards to our users.</p>
-            <p><strong>3. CASHBACK POLICY:</strong> Rewards are estimated and confirmed only after the merchant's return window is closed. We are not liable for merchant-denied commissions.</p>
-            <p><strong>4. USER PRIVACY:</strong> We use secure Firebase login. We do not store your financial details or passwords.</p>
-            <p><strong>5. NO LIABILITY:</strong> We are not responsible for any order-related issues (shipping, quality, or refunds). Please contact the merchant's support directly.</p>
-        </div>
-        <button class="main-btn" style="margin-top:15px; background:#2ecc71;" onclick="showSection('home-page')">I AGREE & START SHOPPING</button>
-    </div>
-</div>
-
-<!-- 4. OWNER PANEL (SECURE) -->
-<div id="admin-page" class="page">
-    <div style="background: #000; color: gold; padding: 25px; border-radius: 20px; text-align: center; border: 2px solid gold;">
-        <h3>👑 OWNER PANEL</h3>
-        <p style="opacity: 0.8; font-size: 12px;">TOTAL MONTHLY ESTIMATED REVENUE</p>
-        <h2 id="owner-total" style="font-size: 36px; margin: 15px 0;">₹0.00</h2>
-        <button onclick="location.reload()" style="background:red; color:white; padding:10px; border:none; width:100%; border-radius:10px; font-weight:bold;">LOGOUT</button>
-    </div>
-</div>
-
-<!-- ADMOB CONTAINER -->
-<div id="ad-container" style="display:none; position: fixed; bottom: 60px; width: 100%; text-align: center; z-index: 999; background: white;">
-    <ins class="adsbygoogle"
-         style="display:inline-block;width:320px;height:50px"
-         data-ad-client="ca-app-pub-3448842614128023"
-         data-ad-slot="7599188673"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-
-<!-- NAVIGATION BAR -->
-<div id="nav-bar" class="nav-bar" style="display:none;">
-    <div class="nav-item" onclick="showSection('home-page')">🏠<br>HOME</div>
-    <div class="nav-item" onclick="showSection('legal-page')">🛡️<br>SAFETY</div>
-    <div class="nav-item" onclick="checkOwner()">👑<br>OWNER</div>
+<h2>Login Successful 🎉</h2>
 </div>
 
 <script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyDVOOjp1IeeQ4DMOTCGZV-C8QI9mMGcenE",
-        authDomain: "://firebaseapp.com",
-        projectId: "all-in-one-shopping-726b4",
-        storageBucket: "://appspot.com",
-        messagingSenderId: "912464435351",
-        appId: "1:912464435351:web:48fea35da31c6adae531d2"
-    };
-    firebase.initializeApp(firebaseConfig);
+/* ✅ FIXED Firebase Config */
+var firebaseConfig = {
+  apiKey: "AIzaSyDVOOjp1IeeQ4DMOTCGZV-C8QI9mMGcenE",
+  authDomain: "all-in-one-shopping-726b4.firebaseapp.com",
+  projectId: "all-in-one-shopping-726b4",
+  storageBucket: "all-in-one-shopping-726b4.appspot.com",
+  messagingSenderId: "912464435351",
+  appId: "1:912464435351:web:48fea35da31c6adae531d2"
+};
 
-    function showSection(id) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        if(id !== 'login-page') {
-            document.getElementById('nav-bar').style.display = 'flex';
-            document.getElementById('ad-container').style.display = 'block';
-        }
-    }
+firebase.initializeApp(firebaseConfig);
 
-    function checkOwner() {
-        const p = prompt("Enter Master Password:");
-        if(p === "Asif@0711") {
-            showSection('admin-page');
-        } else if(p !== null) {
-            alert("Access Denied!");
-        }
-    }
+/* ✅ reCAPTCHA INIT */
+window.onload = function () {
+  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+};
 
-    function sendOTP() {
-        const num = document.getElementById('phone').value;
-        if(!num) return alert("Please enter phone number!");
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {size: 'invisible'});
-        firebase.auth().signInWithPhoneNumber(num, window.recaptchaVerifier).then(res => {
-            window.confirmationResult = res;
-            document.getElementById('otp-area').style.display = 'block';
-            alert("OTP Sent!");
-        }).catch(err => alert(err.message));
-    }
+/* ✅ SEND OTP */
+function sendOTP() {
+  var number = document.getElementById('phone').value;
 
-    function verifyOTP() {
-        const code = document.getElementById('otp').value;
-        confirmationResult.confirm(code).then(() => {
-            showSection('home-page');
-        }).catch(() => alert("Verification Failed!"));
-    }
+  firebase.auth().signInWithPhoneNumber(number, window.recaptchaVerifier)
+  .then(function (confirmationResult) {
+    window.confirmationResult = confirmationResult;
+    document.getElementById('otp-area').style.display = 'block';
+    alert("OTP Sent!");
+  })
+  .catch(function (error) {
+    alert(error.message);
+  });
+}
+
+/* ✅ VERIFY OTP */
+function verifyOTP() {
+  var code = document.getElementById('otp').value;
+
+  confirmationResult.confirm(code).then(function () {
+    document.getElementById('login-page').style.display = "none";
+    document.getElementById('home-page').style.display = "block";
+  }).catch(function () {
+    alert("Wrong OTP");
+  });
+}
 </script>
+
 </body>
 </html>
