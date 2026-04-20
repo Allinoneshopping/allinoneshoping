@@ -1,87 +1,144 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AllInOneShopping</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AllInOneShopping</title>
 
-<!-- ✅ FIXED Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <!-- ✅ Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-<style>
-body{font-family:sans-serif;background:#f4f7f6;margin:0}
-.header{background:#1e3c72;color:#fff;padding:15px;text-align:center;font-weight:bold}
-.page{display:none;padding:15px}
-.active{display:block}
-.main-btn{width:100%;padding:12px;background:#1e3c72;color:#fff;border:none;border-radius:10px;margin-top:10px}
-</style>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f5f5f5;
+      margin: 0;
+      text-align: center;
+    }
+    .box {
+      margin: 50px auto;
+      background: white;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background: #1e3c72;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    .hidden { display: none; }
+    .card {
+      background: white;
+      margin: 10px;
+      padding: 15px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: block;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="header">AllInOneShopping</div>
+<!-- LOGIN -->
+<div class="box" id="loginBox">
+  <h2>AllInOneShopping</h2>
+  <input type="tel" id="phone" placeholder="+91XXXXXXXXXX">
+  <div id="recaptcha-container"></div>
+  <button onclick="sendOTP()">Send OTP</button>
 
-<div id="login-page" class="page active">
-<h2>Login</h2>
-<input type="tel" id="phone" placeholder="+91XXXXXXXXXX" style="width:100%;padding:10px;">
-<div id="recaptcha-container"></div>
-<button class="main-btn" onclick="sendOTP()">SEND OTP</button>
-
-<div id="otp-area" style="display:none;">
-<input type="text" id="otp" placeholder="Enter OTP" style="width:100%;padding:10px;">
-<button class="main-btn" onclick="verifyOTP()">VERIFY</button>
+  <div id="otpBox" class="hidden">
+    <input type="text" id="otp" placeholder="Enter OTP">
+    <button onclick="verifyOTP()">Verify</button>
+  </div>
 </div>
-</div>
 
-<div id="home-page" class="page">
-<h2>Login Successful 🎉</h2>
+<!-- HOME -->
+<div class="box hidden" id="homeBox">
+  <h3>Welcome 🎉</h3>
+
+  <a href="https://www.amazon.in" class="card">Amazon</a>
+  <a href="https://www.flipkart.com" class="card">Flipkart</a>
+  <a href="https://www.myntra.com" class="card">Myntra</a>
+  <a href="https://www.ajio.com" class="card">Ajio</a>
+
+  <button onclick="logout()">Logout</button>
 </div>
 
 <script>
-/* ✅ FIXED Firebase Config */
-var firebaseConfig = {
-  apiKey: "AIzaSyDVOOjp1IeeQ4DMOTCGZV-C8QI9mMGcenE",
-  authDomain: "all-in-one-shopping-726b4.firebaseapp.com",
-  projectId: "all-in-one-shopping-726b4",
-  storageBucket: "all-in-one-shopping-726b4.appspot.com",
-  messagingSenderId: "912464435351",
-  appId: "1:912464435351:web:48fea35da31c6adae531d2"
-};
+  // 🔥 Firebase Config (তোমারটা বসাও)
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "all-in-one-shopping-726b4.firebaseapp.com",
+    projectId: "all-in-one-shopping-726b4",
+    storageBucket: "all-in-one-shopping-726b4.appspot.com",
+    messagingSenderId: "912464435351",
+    appId: "YOUR_APP_ID"
+  };
 
-firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 
-/* ✅ reCAPTCHA INIT */
-window.onload = function () {
-  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
-};
+  window.onload = function () {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+      size: 'normal'
+    });
+  };
 
-/* ✅ SEND OTP */
-function sendOTP() {
-  var number = document.getElementById('phone').value;
+  function sendOTP() {
+    let phone = document.getElementById("phone").value;
 
-  firebase.auth().signInWithPhoneNumber(number, window.recaptchaVerifier)
-  .then(function (confirmationResult) {
-    window.confirmationResult = confirmationResult;
-    document.getElementById('otp-area').style.display = 'block';
-    alert("OTP Sent!");
-  })
-  .catch(function (error) {
-    alert(error.message);
-  });
-}
+    if (!phone.startsWith("+")) {
+      alert("Use format: +91XXXXXXXXXX");
+      return;
+    }
 
-/* ✅ VERIFY OTP */
-function verifyOTP() {
-  var code = document.getElementById('otp').value;
+    firebase.auth().signInWithPhoneNumber(phone, window.recaptchaVerifier)
+      .then(function (result) {
+        window.confirmationResult = result;
+        document.getElementById("otpBox").classList.remove("hidden");
+        alert("OTP Sent");
+      })
+      .catch(function (error) {
+        alert(error.message);
+      });
+  }
 
-  confirmationResult.confirm(code).then(function () {
-    document.getElementById('login-page').style.display = "none";
-    document.getElementById('home-page').style.display = "block";
-  }).catch(function () {
-    alert("Wrong OTP");
-  });
-}
+  function verifyOTP() {
+    let code = document.getElementById("otp").value;
+
+    confirmationResult.confirm(code)
+      .then(function () {
+        document.getElementById("loginBox").classList.add("hidden");
+        document.getElementById("homeBox").classList.remove("hidden");
+      })
+      .catch(function () {
+        alert("Invalid OTP");
+      });
+  }
+
+  function logout() {
+    firebase.auth().signOut().then(() => {
+      location.reload();
+    });
+  }
 </script>
 
 </body>
