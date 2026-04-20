@@ -1,210 +1,67 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>AllInOneShopping</title>
-
-  <!-- ✅ Firebase CDN (Correct) -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-
-  <style>
-    body { font-family: Arial; text-align: center; margin-top: 50px; }
-    input, button {
-      padding: 12px;
-      margin: 10px;
-      width: 250px;
-    }
-  </style>
-</head>
-
-<body>
-
-<h2>AllInOneShopping Login</h2>
-
-<input type="tel" id="phone" placeholder="+91XXXXXXXXXX"><br>
-
-<div id="recaptcha-container"></div>
-
-<button onclick="sendOTP()">Send OTP</button>
-
-<br>
-
-<input type="text" id="otp" placeholder="Enter OTP"><br>
-
-<button onclick="verifyOTP()">Verify</button>
-
-<script>
-  // ✅ FIXED Firebase Config
-  const firebaseConfig = {
-    apiKey: "AIzaSyDVOOjp1IeEQ4DMOTCGZV-C0Qi9mMGcenE",
-    authDomain: "all-in-one-shopping-726b4.firebaseapp.com",
-    projectId: "all-in-one-shopping-726b4",
-    storageBucket: "all-in-one-shopping-726b4.appspot.com",
-    messagingSenderId: "912464435351",
-    appId: "1:912464435351:web:48fea35da31c6adae531d2"
-  };
-
-  // ✅ Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-  // ✅ Recaptcha
-  window.onload = function () {
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-      size: 'normal'
-    });
-  };
-
-  // ✅ Send OTP
-  function sendOTP() {
-    var phone = document.getElementById("phone").value;
-
-    if (!phone.startsWith("+")) {
-      alert("Use +91XXXXXXXXXX format");
-      return;
-    }
-
-    firebase.auth().signInWithPhoneNumber(phone, window.recaptchaVerifier)
-      .then(function (result) {
-        window.confirmationResult = result;
-        alert("OTP Sent");
-      })
-      .catch(function (error) {
-        alert(error.message);
-      });
-  }
-
-  // ✅ Verify OTP
-  function verifyOTP() {
-    var code = document.getElementById("otp").value;
-
-    confirmationResult.confirm(code)
-      .then(function () {
-        alert("Login Success ✅");
-      })
-      .catch(function () {
-        alert("Wrong OTP ❌");
-      });
-  }
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AllInOneShopping</title>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<!-- Cuelinks Auto Affiliate -->
+<script type="text/javascript">
+var cl_cid = "282788";
+(function() {
+  var cl = document.createElement('script'); 
+  cl.type = 'text/javascript'; 
+  cl.async = true;
+  cl.src = 'https://track.cuelinks.com/cuelinks.js';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(cl, s);
+})();
+</script>
 
 <style>
-body { font-family: Arial; margin:0; background:#f4f7f6; }
-.header { background:#1e3c72; color:#fff; padding:15px; text-align:center; }
-.page { display:none; padding:15px; }
-.active { display:block; }
+body { margin:0; font-family:Arial; background:#f4f7f6; }
+.header { background:#1e3c72; color:#fff; padding:15px; text-align:center; font-weight:bold; }
+.section { padding:15px; }
 .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
-.card { background:#fff; padding:15px; border-radius:10px; text-align:center; text-decoration:none; color:#333; }
-.nav { position:fixed; bottom:0; width:100%; display:flex; justify-content:space-around; background:#fff; padding:10px; border-top:1px solid #ccc; }
-button { width:100%; padding:12px; margin-top:10px; background:#1e3c72; color:#fff; border:none; border-radius:8px; }
-input { width:100%; padding:12px; margin-top:10px; border-radius:8px; border:1px solid #ccc; }
+.card { background:#fff; padding:15px; border-radius:10px; text-align:center; text-decoration:none; color:#333; font-weight:bold; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+.card:hover { background:#f0f0f0; }
+.footer { text-align:center; padding:15px; font-size:12px; color:#777; }
 </style>
 </head>
 
 <body>
 
-<div class="header">AllInOneShopping</div>
+<div class="header">🛒 AllInOneShopping</div>
 
-<!-- LOGIN -->
-<div id="login" class="page active">
-<h3>Login with Phone</h3>
-<input type="tel" id="phone" placeholder="+91XXXXXXXXXX">
-<div id="recaptcha"></div>
-<button onclick="sendOTP()">Send OTP</button>
-
-<div id="otpBox" style="display:none;">
-<input type="text" id="otp" placeholder="Enter OTP">
-<button onclick="verifyOTP()">Verify</button>
-</div>
-</div>
-
-<!-- HOME -->
-<div id="home" class="page">
-<h3>Shopping</h3>
+<div class="section">
+<h3>🔥 Best Shopping</h3>
 <div class="grid">
-<a href="https://flipkart.com" class="card">Flipkart</a>
-<a href="https://amazon.in" class="card">Amazon</a>
-<a href="https://myntra.com" class="card">Myntra</a>
-<a href="https://ajio.com" class="card">Ajio</a>
+<a href="https://www.amazon.in" class="card">Amazon</a>
+<a href="https://www.flipkart.com" class="card">Flipkart</a>
+<a href="https://www.myntra.com" class="card">Myntra</a>
+<a href="https://www.ajio.com" class="card">Ajio</a>
+</div>
 </div>
 
-<h3>Food</h3>
+<div class="section">
+<h3>🍔 Food Delivery</h3>
 <div class="grid">
-<a href="https://zomato.com" class="card">Zomato</a>
-<a href="https://swiggy.com" class="card">Swiggy</a>
+<a href="https://www.zomato.com" class="card">Zomato</a>
+<a href="https://www.swiggy.com" class="card">Swiggy</a>
 </div>
 </div>
 
-<!-- NAV -->
-<div id="nav" class="nav" style="display:none;">
-<div onclick="show('home')">Home</div>
-<div onclick="logout()">Logout</div>
+<div class="section">
+<h3>💻 Electronics</h3>
+<div class="grid">
+<a href="https://www.reliancedigital.in" class="card">Reliance Digital</a>
+<a href="https://www.tatacliq.com" class="card">Tata CLiQ</a>
+</div>
 </div>
 
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyDVOOjp1IeEQ4DMOTCGZV-C0Qi9mMGcenE",
-  authDomain: "all-in-one-shopping-726b4.firebaseapp.com",
-  projectId: "all-in-one-shopping-726b4",
-  storageBucket: "all-in-one-shopping-726b4.appspot.com",
-  messagingSenderId: "912464435351",
-  appId: "1:912464435351:web:48fea35da31c6adae531d2"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-window.onload = function() {
-  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
-    size: 'invisible'
-  });
-};
-
-function show(id){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-}
-
-function sendOTP(){
-let phone=document.getElementById('phone').value;
-
-firebase.auth().signInWithPhoneNumber(phone, window.recaptchaVerifier)
-.then(res=>{
-window.confirmationResult=res;
-document.getElementById('otpBox').style.display='block';
-alert("OTP Sent");
-})
-.catch(err=>alert(err.message));
-}
-
-function verifyOTP(){
-let code=document.getElementById('otp').value;
-
-confirmationResult.confirm(code)
-.then(()=>{
-alert("Login Success");
-show('home');
-document.getElementById('nav').style.display='flex';
-})
-.catch(()=>alert("Wrong OTP"));
-}
-
-function logout(){
-location.reload();
-}
-</script>
+<div class="footer">
+Earn cashback by shopping through this app 💰
+</div>
 
 </body>
 </html>
