@@ -1,210 +1,268 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AllInOneShopping</title>
 
 <style>
-body {
-  margin:0;
-  font-family: Arial;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4);
+body{
+margin:0;
+font-family:sans-serif;
+background:#f2f2f2;
 }
 
-/* Header */
-.header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px;
-  background:#222;
-  color:#fff;
+/* HEADER */
+.header{
+background:#111;
+color:#fff;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
-.menu {
-  font-size:22px;
-  cursor:pointer;
+/* LOGIN */
+.login{
+padding:20px;
+}
+.login input{
+width:100%;
+margin:10px 0;
+padding:12px;
+border-radius:10px;
+border:none;
+}
+.login button{
+width:100%;
+padding:12px;
+background:#ff4d4d;
+color:#fff;
+border:none;
+border-radius:10px;
 }
 
-/* Sidebar */
-.sidebar {
-  position:fixed;
-  left:-250px;
-  top:0;
-  width:250px;
-  height:100%;
-  background:#333;
-  color:#fff;
-  padding:20px;
-  transition:0.3s;
+/* APP */
+.app{
+display:none;
 }
 
-.sidebar a {
-  display:block;
-  color:#fff;
-  margin:15px 0;
-  text-decoration:none;
+/* SEARCH */
+.search{
+padding:10px;
+}
+.search input{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
 }
 
-/* Search */
-.search-box {
-  margin:20px;
+/* CARD */
+.card{
+background:#fff;
+margin:10px;
+padding:15px;
+border-radius:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+.left{
+display:flex;
+gap:10px;
+align-items:center;
+}
+.left img{
+width:40px;
 }
 
-.search-box input {
-  width:100%;
-  padding:10px;
-  border-radius:10px;
-  border:none;
+/* BUTTON */
+button{
+padding:10px;
+border:none;
+border-radius:10px;
+background:#ff4d4d;
+color:#fff;
 }
 
-/* Cards */
-.container {
-  padding:10px;
+/* DARK MODE */
+.dark{
+background:#111;
+color:#fff;
+}
+.dark .card{
+background:#222;
+color:#fff;
 }
 
-.card {
-  background:#fff;
-  margin:10px;
-  padding:15px;
-  border-radius:15px;
-  box-shadow:0 5px 10px rgba(0,0,0,0.1);
-  display:flex;
-  align-items:center;
-  gap:10px;
+/* MENU */
+.menu{
+padding:10px;
+display:flex;
+gap:5px;
+flex-wrap:wrap;
 }
-
-.card img {
-  width:40px;
-}
-
-button {
-  padding:10px;
-  border:none;
-  border-radius:10px;
-  background:#ff6b6b;
-  color:#fff;
-  cursor:pointer;
-}
-
-/* Profile Modal */
-.profile {
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:#000000aa;
-}
-
-.profile-box {
-  background:#fff;
-  margin:100px auto;
-  padding:20px;
-  width:80%;
-  border-radius:15px;
+.menu button{
+flex:1;
 }
 </style>
-
 </head>
 
-<body>
+<body id="body">
 
-<!-- Sidebar -->
-<div id="sidebar" class="sidebar">
-  <h2>Menu</h2>
-  <a href="#">👤 Profile</a>
-  <a href="#">💰 Wallet</a>
-  <a href="#">🛒 Orders</a>
-  <a href="#">📍 Live Tracking</a>
-  <a href="#">⚙️ Settings</a>
-  <a href="#">📄 About Us</a>
-  <a href="#">🔐 Privacy Policy</a>
-  <a href="#">📜 Terms</a>
+<!-- LOGIN -->
+<div id="loginPage" class="login">
+<h2>Login</h2>
+<input type="text" id="phone" placeholder="Phone Number">
+<input type="password" id="pass" placeholder="Password">
+<button onclick="login()">Login</button>
 </div>
 
-<!-- Header -->
+<!-- APP -->
+<div id="app" class="app">
+
 <div class="header">
-  <span class="menu" onclick="toggleMenu()">☰</span>
-  <h2>AllInOneShopping</h2>
-  <span onclick="openProfile()">👤</span>
+<h3>AllInOneShopping</h3>
+<div>
+<span onclick="toggleDark()">🌙</span>
+<span onclick="logout()">🚪</span>
+</div>
 </div>
 
-<!-- Search -->
-<div class="search-box">
-  <input type="text" id="search" placeholder="Search products...">
+<!-- MENU -->
+<div class="menu">
+<button onclick="showHome()">Home</button>
+<button onclick="openPage('about')">About</button>
+<button onclick="openPage('policy')">Policy</button>
+<button onclick="openPage('terms')">Terms</button>
 </div>
 
-<!-- Products -->
-<div class="container" id="products">
+<!-- SEARCH -->
+<div class="search">
+<input type="text" id="search" placeholder="Search...">
+</div>
+
+<!-- CONTENT -->
+<div id="content">
+
+<!-- HOME -->
+<div id="home">
 
 <div class="card">
+<div class="left">
 <img src="https://cdn-icons-png.flaticon.com/512/888/888857.png">
 <span>Amazon</span>
+</div>
 <button onclick="go('https://www.amazon.in')">Open</button>
 </div>
 
 <div class="card">
+<div class="left">
 <img src="https://cdn-icons-png.flaticon.com/512/5968/5968841.png">
 <span>Flipkart</span>
+</div>
 <button onclick="go('https://www.flipkart.com')">Open</button>
 </div>
 
 <div class="card">
+<div class="left">
 <img src="https://cdn-icons-png.flaticon.com/512/732/732084.png">
 <span>Myntra</span>
+</div>
 <button onclick="go('https://www.myntra.com')">Open</button>
 </div>
 
 <div class="card">
+<div class="left">
 <img src="https://cdn-icons-png.flaticon.com/512/5968/5968870.png">
 <span>Zomato</span>
+</div>
 <button onclick="go('https://www.zomato.com')">Open</button>
 </div>
 
 </div>
 
-<!-- Profile -->
-<div id="profile" class="profile">
-  <div class="profile-box">
-    <h3>My Profile</h3>
-    <input type="text" placeholder="Name"><br><br>
-    <input type="password" placeholder="Change Password"><br><br>
-    <button>Save</button>
-    <button onclick="closeProfile()">Close</button>
-  </div>
+</div>
+
 </div>
 
 <script>
-function toggleMenu(){
-  let s = document.getElementById("sidebar");
-  s.style.left = (s.style.left=="0px") ? "-250px" : "0px";
+/* LOGIN */
+function login(){
+let p=document.getElementById("phone").value;
+let pass=document.getElementById("pass").value;
+
+if(p && pass){
+localStorage.setItem("user",p);
+document.getElementById("loginPage").style.display="none";
+document.getElementById("app").style.display="block";
+}else{
+alert("Enter details");
+}
 }
 
-function go(url){
-  window.location.href = url;
+/* AUTO LOGIN */
+if(localStorage.getItem("user")){
+document.getElementById("loginPage").style.display="none";
+document.getElementById("app").style.display="block";
 }
 
-function openProfile(){
-  document.getElementById("profile").style.display="block";
+/* LOGOUT */
+function logout(){
+localStorage.removeItem("user");
+location.reload();
 }
 
-function closeProfile(){
-  document.getElementById("profile").style.display="none";
+/* DARK MODE */
+function toggleDark(){
+document.getElementById("body").classList.toggle("dark");
 }
 
-/* Search */
-document.getElementById("search").addEventListener("keyup", function(){
-  let filter = this.value.toLowerCase();
-  let cards = document.querySelectorAll(".card");
+/* SEARCH */
+document.getElementById("search").addEventListener("keyup",function(){
+let v=this.value.toLowerCase();
+let cards=document.querySelectorAll(".card");
 
-  cards.forEach(card=>{
-    let text = card.innerText.toLowerCase();
-    card.style.display = text.includes(filter) ? "flex" : "none";
-  });
+cards.forEach(c=>{
+c.style.display = c.innerText.toLowerCase().includes(v) ? "flex":"none";
 });
+});
+
+/* OPEN LINK */
+function go(url){
+window.location.href=url;
+}
+
+/* HOME */
+function showHome(){
+location.reload();
+}
+
+/* PAGES */
+function openPage(type){
+let content="";
+
+if(type=="about"){
+content=`<h2>About Us</h2>
+<p>This app provides access to multiple shopping platforms.</p>
+<p>We do not sell products directly.</p>
+<p>We may earn commission through affiliate links.</p>`;
+}
+
+if(type=="policy"){
+content=`<h2>Privacy Policy</h2>
+<p>We do not collect personal sensitive data.</p>
+<p>Third-party ads may collect anonymous data.</p>`;
+}
+
+if(type=="terms"){
+content=`<h2>Terms & Conditions</h2>
+<p>We are not responsible for products or delivery.</p>
+<p>All transactions happen on third-party sites.</p>`;
+}
+
+document.getElementById("content").innerHTML=content;
+}
 </script>
 
 </body>
