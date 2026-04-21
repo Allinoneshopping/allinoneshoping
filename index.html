@@ -5,10 +5,43 @@
 <title>AllInOneShopping</title>
 
 <style>
-body{
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:sans-serif;
+}
+
+body{
 background:#f2f2f2;
+}
+
+/* LOGIN */
+.login{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+padding:20px;
+}
+.login input{
+margin:10px 0;
+padding:14px;
+border:none;
+border-radius:12px;
+}
+.login button{
+padding:14px;
+background:#ff4d4d;
+color:#fff;
+border:none;
+border-radius:12px;
+}
+
+/* APP */
+.app{
+display:none;
+min-height:100vh;
 }
 
 /* HEADER */
@@ -19,31 +52,37 @@ padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+position:sticky;
+top:0;
 }
 
-/* LOGIN */
-.login{
+/* SIDE MENU */
+.sideMenu{
+position:fixed;
+top:0;
+right:-220px;
+width:200px;
+height:100%;
+background:#111;
 padding:20px;
+display:flex;
+flex-direction:column;
+gap:10px;
+transition:0.3s;
+z-index:999;
 }
-.login input{
-width:100%;
-margin:10px 0;
-padding:12px;
-border-radius:10px;
-border:none;
-}
-.login button{
-width:100%;
-padding:12px;
+
+.sideMenu button{
 background:#ff4d4d;
 color:#fff;
+padding:12px;
 border:none;
 border-radius:10px;
 }
 
-/* APP */
-.app{
-display:none;
+/* SHOW MENU */
+.showMenu{
+right:0;
 }
 
 /* SEARCH */
@@ -52,8 +91,8 @@ padding:10px;
 }
 .search input{
 width:100%;
-padding:12px;
-border-radius:10px;
+padding:14px;
+border-radius:12px;
 border:none;
 }
 
@@ -66,23 +105,28 @@ border-radius:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+box-shadow:0 5px 10px rgba(0,0,0,0.08);
 }
+
 .left{
 display:flex;
-gap:10px;
+gap:12px;
 align-items:center;
 }
 .left img{
-width:40px;
+width:50px;
+height:50px;
+border-radius:12px;
 }
 
 /* BUTTON */
 button{
-padding:10px;
+padding:10px 15px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 background:#ff4d4d;
 color:#fff;
+font-weight:bold;
 }
 
 /* DARK MODE */
@@ -92,18 +136,11 @@ color:#fff;
 }
 .dark .card{
 background:#222;
-color:#fff;
 }
 
-/* MENU */
-.menu{
+/* CONTENT */
+#content{
 padding:10px;
-display:flex;
-gap:5px;
-flex-wrap:wrap;
-}
-.menu button{
-flex:1;
 }
 </style>
 </head>
@@ -125,16 +162,17 @@ flex:1;
 <h3>AllInOneShopping</h3>
 <div>
 <span onclick="toggleDark()">🌙</span>
-<span onclick="logout()">🚪</span>
+<span onclick="toggleMenu()">☰</span>
 </div>
 </div>
 
-<!-- MENU -->
-<div class="menu">
+<!-- SIDE MENU -->
+<div id="sideMenu" class="sideMenu">
 <button onclick="showHome()">Home</button>
 <button onclick="openPage('about')">About</button>
 <button onclick="openPage('policy')">Policy</button>
 <button onclick="openPage('terms')">Terms</button>
+<button onclick="logout()">Logout</button>
 </div>
 
 <!-- SEARCH -->
@@ -145,36 +183,39 @@ flex:1;
 <!-- CONTENT -->
 <div id="content">
 
-<!-- HOME -->
 <div id="home">
 
+<!-- AMAZON -->
 <div class="card">
 <div class="left">
-<img src="https://cdn-icons-png.flaticon.com/512/888/888857.png">
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg">
 <span>Amazon</span>
 </div>
 <button onclick="go('https://www.amazon.in')">Open</button>
 </div>
 
+<!-- FLIPKART -->
 <div class="card">
 <div class="left">
-<img src="https://cdn-icons-png.flaticon.com/512/5968/5968841.png">
+<img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Flipkart_logo.png">
 <span>Flipkart</span>
 </div>
 <button onclick="go('https://www.flipkart.com')">Open</button>
 </div>
 
+<!-- MYNTRA -->
 <div class="card">
 <div class="left">
-<img src="https://cdn-icons-png.flaticon.com/512/732/732084.png">
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Myntra_Logo.png">
 <span>Myntra</span>
 </div>
 <button onclick="go('https://www.myntra.com')">Open</button>
 </div>
 
+<!-- ZOMATO -->
 <div class="card">
 <div class="left">
-<img src="https://cdn-icons-png.flaticon.com/512/5968/5968870.png">
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Zomato_logo.png">
 <span>Zomato</span>
 </div>
 <button onclick="go('https://www.zomato.com')">Open</button>
@@ -187,6 +228,7 @@ flex:1;
 </div>
 
 <script>
+
 /* LOGIN */
 function login(){
 let p=document.getElementById("phone").value;
@@ -218,6 +260,11 @@ function toggleDark(){
 document.getElementById("body").classList.toggle("dark");
 }
 
+/* MENU */
+function toggleMenu(){
+document.getElementById("sideMenu").classList.toggle("showMenu");
+}
+
 /* SEARCH */
 document.getElementById("search").addEventListener("keyup",function(){
 let v=this.value.toLowerCase();
@@ -245,20 +292,17 @@ let content="";
 if(type=="about"){
 content=`<h2>About Us</h2>
 <p>This app provides access to multiple shopping platforms.</p>
-<p>We do not sell products directly.</p>
-<p>We may earn commission through affiliate links.</p>`;
+<p>We may earn commission from affiliate links.</p>`;
 }
 
 if(type=="policy"){
 content=`<h2>Privacy Policy</h2>
-<p>We do not collect personal sensitive data.</p>
-<p>Third-party ads may collect anonymous data.</p>`;
+<p>We do not collect personal sensitive data.</p>`;
 }
 
 if(type=="terms"){
 content=`<h2>Terms & Conditions</h2>
-<p>We are not responsible for products or delivery.</p>
-<p>All transactions happen on third-party sites.</p>`;
+<p>All purchases happen on third-party websites.</p>`;
 }
 
 document.getElementById("content").innerHTML=content;
