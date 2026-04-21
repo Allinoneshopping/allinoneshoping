@@ -17,7 +17,14 @@ padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+font-size:20px;
 }
+.header span{
+cursor:pointer;
+padding:5px 10px;
+border-radius:8px;
+}
+.header span:hover{background:#222;}
 
 /* LOGO */
 .logoBox{
@@ -30,9 +37,7 @@ color:#fff;
 width:100px;
 border-radius:20px;
 }
-.logoBox h2{
-margin-top:10px;
-}
+.logoBox h2{margin-top:10px;}
 
 /* SEARCH */
 .search{padding:10px;}
@@ -52,9 +57,10 @@ border-radius:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+box-shadow:0 5px 10px rgba(0,0,0,0.08);
 }
 .left{display:flex;align-items:center;gap:10px;}
-.left img{width:50px;border-radius:12px;}
+.left img{width:50px;height:50px;border-radius:12px;}
 
 button{
 background:#ff4d4d;
@@ -64,7 +70,7 @@ padding:10px 15px;
 border-radius:10px;
 }
 
-/* DARK */
+/* DARK MODE */
 .dark{background:#111;color:#fff;}
 .dark .card{background:#222;}
 
@@ -80,8 +86,8 @@ color:#fff;
 padding:15px;
 transition:0.3s;
 z-index:999;
+overflow-y:auto;
 }
-
 .showMenu{right:0;}
 
 .profileBox{
@@ -104,6 +110,12 @@ cursor:pointer;
 .menuItem:hover{background:#222;}
 
 hr{border:0.5px solid #333;margin:10px 0;}
+
+/* PAGE CONTENT */
+#pageContent{
+display:none;
+padding:15px;
+}
 </style>
 </head>
 
@@ -112,6 +124,7 @@ hr{border:0.5px solid #333;margin:10px 0;}
 <!-- HEADER -->
 <div class="header">
 <span onclick="toggleMenu()">☰</span>
+<span onclick="openPage('wallet')">💰</span>
 </div>
 
 <!-- LOGO -->
@@ -127,6 +140,9 @@ hr{border:0.5px solid #333;margin:10px 0;}
 
 <!-- HOME -->
 <div id="home"></div>
+
+<!-- PAGE CONTENT -->
+<div id="pageContent"></div>
 
 <!-- SIDE MENU -->
 <div id="sideMenu" class="sideMenu">
@@ -162,12 +178,12 @@ function toggleMenu(){
 document.getElementById("sideMenu").classList.toggle("showMenu");
 }
 
-/* DARK MODE */
+/* DARK */
 function toggleDark(){
 document.getElementById("body").classList.toggle("dark");
 }
 
-/* DATA */
+/* DATA (Affiliate) */
 let apps=[
 {name:"Amazon",logo:"https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",link:"https://www.amazon.in"},
 {name:"Flipkart",logo:"https://upload.wikimedia.org/wikipedia/commons/1/1b/Flipkart_logo.png",link:"https://www.flipkart.com"},
@@ -175,7 +191,7 @@ let apps=[
 {name:"Zomato",logo:"https://upload.wikimedia.org/wikipedia/commons/7/75/Zomato_logo.png",link:"https://www.zomato.com"}
 ];
 
-/* LOAD */
+/* LOAD APPS */
 function loadApps(){
 let html="";
 apps.forEach(app=>{
@@ -200,33 +216,59 @@ c.style.display=c.innerText.toLowerCase().includes(v)?"flex":"none";
 });
 });
 
-/* OPEN */
-function go(url){window.location.href=url;}
+/* OPEN LINK */
+function go(url){
+window.location.href=url;
+}
 
-/* HOME */
-function showHome(){loadApps();}
+/* SHOW HOME */
+function showHome(){
+document.getElementById("home").style.display="block";
+document.getElementById("pageContent").style.display="none";
+loadApps();
+}
 
-/* PAGES */
+/* OPEN PAGES */
 function openPage(type){
+
+document.getElementById("home").style.display="none";
+let page=document.getElementById("pageContent");
+page.style.display="block";
+
 let content="";
 
 if(type=="profile"){
-content=`<h2>Profile</h2><p>User profile info</p>`;
+content=`
+<h2>Profile</h2>
+<p>Name: User</p>
+<p>Phone: Demo User</p>
+`;
 }
+
 if(type=="wallet"){
-content=`<h2>Wallet</h2><p>Balance: ₹0</p>`;
+content=`
+<h2>Wallet</h2>
+<p><b>Balance:</b> ₹0</p>
+<button onclick="alert('Withdraw coming soon')">Withdraw</button>
+`;
 }
+
 if(type=="about"){
 content=`<h2>About</h2><p>Affiliate shopping app</p>`;
 }
+
 if(type=="policy"){
 content=`<h2>Policy</h2><p>No personal data collected</p>`;
 }
+
 if(type=="terms"){
 content=`<h2>Terms</h2><p>Use at your own risk</p>`;
 }
 
-document.getElementById("home").innerHTML=content;
+page.innerHTML=content;
+
+/* CLOSE MENU AUTO */
+document.getElementById("sideMenu").classList.remove("showMenu");
 }
 
 /* LOGOUT */
