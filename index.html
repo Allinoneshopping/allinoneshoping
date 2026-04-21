@@ -5,44 +5,9 @@
 <title>AllInOneShopping</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
 
-body{
-background:#f2f2f2;
-}
-
-/* LOGIN */
-.login{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-padding:20px;
-}
-.login input{
-margin:10px 0;
-padding:14px;
-border:none;
-border-radius:12px;
-}
-.login button{
-padding:14px;
-background:#ff4d4d;
-color:#fff;
-border:none;
-border-radius:12px;
-}
-
-/* APP */
-.app{
-display:none;
-min-height:100vh;
-}
+body{background:#f2f2f2;}
 
 /* HEADER */
 .header{
@@ -52,43 +17,25 @@ padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-position:sticky;
-top:0;
 }
 
-/* SIDE MENU */
-.sideMenu{
-position:fixed;
-top:0;
-right:-220px;
-width:200px;
-height:100%;
-background:#111;
+/* LOGO */
+.logoBox{
+text-align:center;
 padding:20px;
-display:flex;
-flex-direction:column;
-gap:10px;
-transition:0.3s;
-z-index:999;
-}
-
-.sideMenu button{
-background:#ff4d4d;
+background:#111;
 color:#fff;
-padding:12px;
-border:none;
-border-radius:10px;
 }
-
-/* SHOW MENU */
-.showMenu{
-right:0;
+.logoBox img{
+width:100px;
+border-radius:20px;
+}
+.logoBox h2{
+margin-top:10px;
 }
 
 /* SEARCH */
-.search{
-padding:10px;
-}
+.search{padding:10px;}
 .search input{
 width:100%;
 padding:14px;
@@ -105,74 +52,72 @@ border-radius:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-box-shadow:0 5px 10px rgba(0,0,0,0.08);
 }
+.left{display:flex;align-items:center;gap:10px;}
+.left img{width:50px;border-radius:12px;}
 
-.left{
-display:flex;
-gap:12px;
-align-items:center;
-}
-.left img{
-width:50px;
-height:50px;
-border-radius:12px;
-}
-
-/* BUTTON */
 button{
-padding:10px 15px;
-border:none;
-border-radius:12px;
 background:#ff4d4d;
 color:#fff;
-font-weight:bold;
+border:none;
+padding:10px 15px;
+border-radius:10px;
 }
 
-/* DARK MODE */
-.dark{
+/* DARK */
+.dark{background:#111;color:#fff;}
+.dark .card{background:#222;}
+
+/* SIDE MENU */
+.sideMenu{
+position:fixed;
+top:0;
+right:-280px;
+width:260px;
+height:100%;
 background:#111;
 color:#fff;
-}
-.dark .card{
-background:#222;
+padding:15px;
+transition:0.3s;
+z-index:999;
 }
 
-/* CONTENT */
-#content{
-padding:10px;
+.showMenu{right:0;}
+
+.profileBox{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:10px;
 }
+.profileBox img{
+width:50px;
+border-radius:50%;
+}
+
+.menuItem{
+padding:12px;
+border-radius:10px;
+margin:5px 0;
+cursor:pointer;
+}
+.menuItem:hover{background:#222;}
+
+hr{border:0.5px solid #333;margin:10px 0;}
 </style>
 </head>
 
 <body id="body">
 
-<!-- LOGIN -->
-<div id="loginPage" class="login">
-<h2>Login</h2>
-<input type="text" id="phone" placeholder="Phone Number">
-<input type="password" id="pass" placeholder="Password">
-<button onclick="login()">Login</button>
-</div>
-
-<!-- APP -->
-<div id="app" class="app">
-
+<!-- HEADER -->
 <div class="header">
-<h3>AllInOneShopping</h3>
-<div>
-<span onclick="toggleDark()">🌙</span>
 <span onclick="toggleMenu()">☰</span>
 </div>
-</div>
 
-<!-- SIDE MENU -->
-<div id="sideMenu" class="sideMenu">
-<button onclick="showHome()">Home</button>
-<button onclick="openPage('about')">About</button>
-<button onclick="openPage('policy')">Policy</button>
-<button onclick="openPage('terms')">Terms</button>
-<button onclick="logout()">Logout</button>
+<!-- LOGO -->
+<div class="logoBox">
+<img src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png">
+<h2>AllInOneShopping</h2>
 </div>
 
 <!-- SEARCH -->
@@ -180,79 +125,41 @@ padding:10px;
 <input type="text" id="search" placeholder="Search...">
 </div>
 
-<!-- CONTENT -->
-<div id="content">
+<!-- HOME -->
+<div id="home"></div>
 
-<div id="home">
+<!-- SIDE MENU -->
+<div id="sideMenu" class="sideMenu">
 
-<!-- AMAZON -->
-<div class="card">
-<div class="left">
-<img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg">
-<span>Amazon</span>
+<div class="profileBox">
+<img src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+<div>
+<h3>Profile</h3>
+<p>View your profile</p>
 </div>
-<button onclick="go('https://www.amazon.in')">Open</button>
-</div>
-
-<!-- FLIPKART -->
-<div class="card">
-<div class="left">
-<img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Flipkart_logo.png">
-<span>Flipkart</span>
-</div>
-<button onclick="go('https://www.flipkart.com')">Open</button>
 </div>
 
-<!-- MYNTRA -->
-<div class="card">
-<div class="left">
-<img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Myntra_Logo.png">
-<span>Myntra</span>
-</div>
-<button onclick="go('https://www.myntra.com')">Open</button>
-</div>
+<hr>
 
-<!-- ZOMATO -->
-<div class="card">
-<div class="left">
-<img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Zomato_logo.png">
-<span>Zomato</span>
-</div>
-<button onclick="go('https://www.zomato.com')">Open</button>
-</div>
+<div class="menuItem" onclick="showHome()">🏠 Home</div>
+<div class="menuItem" onclick="openPage('profile')">👤 Profile</div>
+<div class="menuItem" onclick="openPage('wallet')">💰 Wallet</div>
+<div class="menuItem" onclick="openPage('about')">ℹ️ About</div>
+<div class="menuItem" onclick="openPage('policy')">🔒 Policy</div>
+<div class="menuItem" onclick="openPage('terms')">📄 Terms</div>
 
-</div>
+<hr>
 
-</div>
+<div class="menuItem" onclick="toggleDark()">🎨 Theme</div>
+<div class="menuItem" onclick="logout()">🚪 Logout</div>
 
 </div>
 
 <script>
 
-/* LOGIN */
-function login(){
-let p=document.getElementById("phone").value;
-let pass=document.getElementById("pass").value;
-
-if(p && pass){
-localStorage.setItem("user",p);
-document.getElementById("loginPage").style.display="none";
-document.getElementById("app").style.display="block";
-}else{
-alert("Enter details");
-}
-}
-
-/* AUTO LOGIN */
-if(localStorage.getItem("user")){
-document.getElementById("loginPage").style.display="none";
-document.getElementById("app").style.display="block";
-}
-
-/* LOGOUT */
-function logout(){
-localStorage.removeItem("user");
-location.reload();
+/* MENU */
+function toggleMenu(){
+document.getElementById("sideMenu").classList.toggle("showMenu");
 }
 
 /* DARK MODE */
@@ -260,53 +167,74 @@ function toggleDark(){
 document.getElementById("body").classList.toggle("dark");
 }
 
-/* MENU */
-function toggleMenu(){
-document.getElementById("sideMenu").classList.toggle("showMenu");
+/* DATA */
+let apps=[
+{name:"Amazon",logo:"https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",link:"https://www.amazon.in"},
+{name:"Flipkart",logo:"https://upload.wikimedia.org/wikipedia/commons/1/1b/Flipkart_logo.png",link:"https://www.flipkart.com"},
+{name:"Myntra",logo:"https://upload.wikimedia.org/wikipedia/commons/7/73/Myntra_Logo.png",link:"https://www.myntra.com"},
+{name:"Zomato",logo:"https://upload.wikimedia.org/wikipedia/commons/7/75/Zomato_logo.png",link:"https://www.zomato.com"}
+];
+
+/* LOAD */
+function loadApps(){
+let html="";
+apps.forEach(app=>{
+html+=`
+<div class="card">
+<div class="left">
+<img src="${app.logo}">
+<span>${app.name}</span>
+</div>
+<button onclick="go('${app.link}')">Open</button>
+</div>`;
+});
+document.getElementById("home").innerHTML=html;
 }
+loadApps();
 
 /* SEARCH */
 document.getElementById("search").addEventListener("keyup",function(){
 let v=this.value.toLowerCase();
-let cards=document.querySelectorAll(".card");
-
-cards.forEach(c=>{
-c.style.display = c.innerText.toLowerCase().includes(v) ? "flex":"none";
+document.querySelectorAll(".card").forEach(c=>{
+c.style.display=c.innerText.toLowerCase().includes(v)?"flex":"none";
 });
 });
 
-/* OPEN LINK */
-function go(url){
-window.location.href=url;
-}
+/* OPEN */
+function go(url){window.location.href=url;}
 
 /* HOME */
-function showHome(){
-location.reload();
-}
+function showHome(){loadApps();}
 
 /* PAGES */
 function openPage(type){
 let content="";
 
+if(type=="profile"){
+content=`<h2>Profile</h2><p>User profile info</p>`;
+}
+if(type=="wallet"){
+content=`<h2>Wallet</h2><p>Balance: ₹0</p>`;
+}
 if(type=="about"){
-content=`<h2>About Us</h2>
-<p>This app provides access to multiple shopping platforms.</p>
-<p>We may earn commission from affiliate links.</p>`;
+content=`<h2>About</h2><p>Affiliate shopping app</p>`;
 }
-
 if(type=="policy"){
-content=`<h2>Privacy Policy</h2>
-<p>We do not collect personal sensitive data.</p>`;
+content=`<h2>Policy</h2><p>No personal data collected</p>`;
 }
-
 if(type=="terms"){
-content=`<h2>Terms & Conditions</h2>
-<p>All purchases happen on third-party websites.</p>`;
+content=`<h2>Terms</h2><p>Use at your own risk</p>`;
 }
 
-document.getElementById("content").innerHTML=content;
+document.getElementById("home").innerHTML=content;
 }
+
+/* LOGOUT */
+function logout(){
+alert("Logout success");
+location.reload();
+}
+
 </script>
 
 </body>
